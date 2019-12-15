@@ -1,3 +1,7 @@
+/// DFS (Depth First Search on graph)
+///
+/// O(V + E), V being the vertices and E the edges connecting them
+
 #include <iostream>
 #include <string.h>
 #include <vector>

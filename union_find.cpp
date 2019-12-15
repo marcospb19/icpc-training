@@ -1,3 +1,7 @@
+/// Union find (Disjoint Set Union)
+///
+/// Amortized O(1) union_set() and find_set(), O(N) prepare_sets()
+
 #include <iostream>
 using namespace std;
 #define MAXN int(1e5) + 1

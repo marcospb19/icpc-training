@@ -3,7 +3,7 @@
 
 My algorithms for competitive programming.
 
-- [x] **Union-Find**
+- [x] **Union-Find** _(Disjoint Set Union / DSU)_
 - [ ] **BFS** _(with queue)_
 - [ ] **DFS** _(with stack)_
 - [x] **DFS** _(recursive)_
