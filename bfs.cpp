@@ -1,10 +1,11 @@
-/// DFS (Depth First Search on graph)
+/// BFS (Breath First Search on graph)
 ///
 /// O(V + E), V being the vertices and E the edges connecting them
 
 #include <iostream>
 #include <string.h>
 #include <vector>
+#include <queue>
 using namespace std;
 #define MAXN int(1e5) + 1
 
@@ -17,19 +18,28 @@ void clear_visited()
 	memset(visited , false , sizeof visited);
 }
 
-bool dfs(int current , int target)
+bool bfs(int start , int target)
 {
-	if (current == target)
+	if (start == target)
 		return true;
 
-	for (auto v : adj[current]) // For each vertice from here
-	{
-		if (!visited[v])
-		{
-			visited[v] = true;
+	queue<int> q;
+	q.push(start);
 
-			if (dfs(v , target))
-				return true;
+	while (!q.empty())
+	{
+		int current = q.front();
+		q.pop();
+
+		for (auto v : adj[current])
+		{
+			if (!visited[v])
+			{
+				if (v == target)
+					return true;
+
+				q.push(v);
+			}
 		}
 	}
 
@@ -45,6 +55,6 @@ int main()
 	adj[2].push_back(3); // 1 -> 2 -> 3
 	adj[3].push_back(4); // 1 -> 2 -> 3 -> 4
 
-	if (dfs(1 , 4))
+	if (bfs(1 , 4))
 		printf("1 is connected to 4\n");
 }
