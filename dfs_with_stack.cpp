@@ -1,10 +1,10 @@
-/// BFS (Breadth First Search on graph)
+/// DFS using a stack (Depth First Search on graph)
 ///
 /// O(V + E), V being the vertices and E the edges connecting them
 
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <stack>
 #include <string.h>
 using namespace std;
 #define MAXN int(1e5) + 1
@@ -18,18 +18,18 @@ void clear_visited()
 	memset(visited , false , sizeof visited);
 }
 
-bool bfs(int start , int target)
+bool dfs(int start , int target)
 {
 	if (start == target)
 		return true;
 
-	queue<int> q;
-	q.push(start);
+	stack<int> s;
+	s.push(start);
 
-	while (!q.empty())
+	while (!s.empty())
 	{
-		int current = q.front();
-		q.pop();
+		int current = s.top();
+		s.pop();
 
 		for (auto v : adj[current])
 		{
@@ -38,7 +38,7 @@ bool bfs(int start , int target)
 				if (v == target)
 					return true;
 
-				q.push(v);
+				s.push(v);
 			}
 		}
 	}
@@ -55,6 +55,6 @@ int main()
 	adj[2].push_back(3); // 1 -> 2 -> 3
 	adj[3].push_back(4); // 1 -> 2 -> 3 -> 4
 
-	if (bfs(1 , 4))
+	if (dfs(1 , 4))
 		printf("1 is connected to 4\n");
 }
