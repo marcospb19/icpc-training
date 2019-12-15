@@ -6,10 +6,10 @@ My algorithms for competitive programming.
 - [x] **Union-Find**
 - [ ] **BFS** _(with queue)_
 - [ ] **DFS** _(with stack)_
-- [ ] **DFS** _(recursive)_
+- [x] **DFS** _(recursive)_
 - [ ] **Segment Tree**
 - [ ] **Convex Hull** _(Graham Scan)_
-- [ ] Finish this list
+- [ ] **Finish this list**
 
 ---
 
