@@ -1,112 +1,37 @@
+#include <cassert>
 /*
-    Generic `Segment Tree` with O(n) building and O(log n) queries
-    Note that the implementation is 1-indexed and the interface is 0-indexed
+    `Segment Tree` template with O(n) building and O(log n) queries
 
-    The memory leak is actually an performance feature :D, yeah, I'm serious
+    !!!!!!!
+    Note: inner implementation is 1-indexed and the outer-interface is 0-indexed!
+    !!!!!!!
 */
-
-#include <assert.h>
-#include <string.h>
-
-#include <iostream>
-using namespace std;
-
 ///
-#define combine(a, b) ((a) * (b))
-#define NEUTRAL int(1)
+#define combine(a, b) ((a) + (b))
+#define NEUTRAL 0
 
 template <typename T>
 struct SegmentTree {
-    T* t;
+    T *t;
     int n;
+    int cap;
 
     SegmentTree(int temp) {
-        t = new T[n = temp];
+        t = new T[cap = 2 * (n = temp)];
     }
 
     void operator()(int temp) {
         n = temp;
+        assert(n < cap * 2);
     }
 
-    T& leaf(int i) {
+    T &leaf(int i) {
         return t[n + i];
     }
 
     // Query range [l, r)
     T query(int l, int r) {
-        assert(r <= n);
-        int ans = NEUTRAL;
-
-        for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) {
-                ans = combine(ans, t[l++]);
-            }
-
-            if (r & 1) {
-                ans = combine(ans, t[--r]);
-            }
-        }
-        return ans;
-    }
-
-    void modify(int pos, T value) {
-        at(pos) = value;
-
-        for (int i = (pos + n) >> 1; i >= 1; i >>= 1) {
-            t[i] = combine(t[i << 1], t[i << 1 | 1]);
-        }
-    }
-
-    T& at(int index) {
-        return t[n + index];
-    }
-
-    void build() {
-        for (int i = n - 1; i >= 1; i--) {
-            t[i] = combine(t[i << 1], t[i << 1 | 1]);
-        }
-    }
-};
-///
-
-int main() {
-    SegmentTree<int> st(1e5);
-
-    int n;
-    cin >> n;
-
-    st(n);
-
-    for (int i = 0; i < n; i++) {
-        cin >> st.leaf(i);
-    }
-
-    st.build();
-}
-
-/*
-        Generic `Segment Tree` with O(n) building and O(log n) queries
-        Note that the implementation is 1-indexed and the interface is 0-indexed
-*/
-
-#include <assert.h>
-#include <string.h>
-
-#include <iostream>
-using namespace std;
-
-///
-#define combine(a, b) ((a) + (b))
-#define NEUTRAL int(0)
-
-template <typename T>
-struct SegmentTree {
-    T* t;
-    int n;
-
-    // Query range [l, r)
-    T query(int l, int r) {
-        assert(r <= n);
+        assert(0 <= l && l < r && r <= n);
         int ans = NEUTRAL;
 
         for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
@@ -121,6 +46,7 @@ struct SegmentTree {
     }
 
     void modify(int pos, T value) {
+        assert(0 <= pos and pos < n);
         at(pos) = value;
 
         for (int i = (pos + n) >> 1; i >= 1; i >>= 1) {
@@ -128,7 +54,7 @@ struct SegmentTree {
         }
     }
 
-    T& at(int index) {
+    T &at(int index) {
         return t[n + index];
     }
 
@@ -137,20 +63,24 @@ struct SegmentTree {
             t[i] = combine(t[i << 1], t[i << 1 | 1]);
         }
     }
+    // int main() {
+    //     SegmentTree<int> st(1e5);
+    //     int n;
+    //     cin >> n;
+    //     st(n);
+    //     for (int i = 0; i < n; i++) {
+    //         cin >> st.leaf(i);
+    //     }
+    //     st.build();
+    // }
+
+    // .query(l, r) and .modify(pos, val)
+    //
+    // How to drive from 1-indexed
+    // st.query(pos - 1, pos); // Segment [pos, pos + 1) == [pos, pos]
+    // st.modify(pos - 1, val);
+    //
+    // How to drive from 0-indexed
+    // st.query(pos, pos + 1); // Segment [pos, pos + 1) == [pos, pos]
+    // st.modify(pos, val);
 };
-///
-
-int main() {
-    int n = 4;
-    int list[4] = {1, 2, 3, 4};
-
-    SegmentTree<int> st(n);
-
-    for (int i = 0; i < n; i++) {
-        st.at(i) = list[i];
-    }
-
-    st.build();
-
-    cout << st.query(0, 4) << endl;
-}
